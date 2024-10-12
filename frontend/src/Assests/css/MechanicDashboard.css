@@ -1,0 +1,356 @@
+/* Main wrapper for the dashboard with a sidebar */
+.dashboard-wrapper {
+    display: flex;
+    height: 100vh;
+    background-color: #f9f9fb;
+}
+
+/* Sidebar styles */
+.sidebar {
+    width: 250px; /* Fixed width for the sidebar */
+    background-color: #fa8524; /* Purple background for sidebar */
+    padding: 20px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* User profile at the top */
+.sidebar .user-profile {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.user-avatar {
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px;
+}
+
+.user-profile h2 {
+    justify-content: left;
+    padding-top: 25px;
+    color: white;
+    font-size: 20px;
+    margin: 0;
+}
+
+.user-profile strong {
+    color: black;
+}
+
+.user-profile p {
+    color: #dcdcdc;
+    font-size: 1rem;
+}
+
+
+
+
+.sidebar .navigation h3 {
+    
+    color: #dcdcdc;
+    margin-bottom: 10px;
+}
+
+.sidebar .navigation ul {
+    margin-left: 0px;
+    display: block;
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar .navigation ul li {
+    margin-bottom: 15px;
+}
+
+.sidebar .navigation button{
+    background-color: transparent;
+    margin-bottom: 10px;
+    margin-top: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: medium;
+    color: #faf0e8;
+    border-top: none;
+    border-left: none;
+    height: 30px;
+    border-radius: 20px;
+    width: 250px;
+}
+
+.sidebar .navigation button:hover{
+    color:antiquewhite;
+    border-bottom: 2px solid #dcdcdc;
+    border-right: 2px solid #dcdcdc;
+    border-radius: 20px;
+}
+
+.sidebar .navigation ul li a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 1.1rem;
+    transition: color 0.2s;
+}
+
+.sidebar .navigation ul li a:hover {
+    color: #ddd;
+}
+
+.sidebar .social-media {
+    margin-top: 250px;
+    text-align: center;
+    padding-top: 20px;
+}
+
+.sidebar .social-media ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar .social-media ul li {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.sidebar .social-media ul li a {
+    color: rgb(255, 255, 255);
+    font-size: 1.5rem;
+}
+
+.sidebar .social-media ul li a:hover {
+    color: #ddd;
+}
+
+/* Main dashboard content */
+.dashboard-main {
+    flex-grow: 1; /* Take up the remaining space */
+    padding: 20px;
+    background-color: #faf0e8;
+}
+
+/* Dashboard header */
+.dashboard-header {
+    display: flex;
+    text-align: center;
+    padding: 10px 0;
+    border-bottom: 2px solid #eee;
+    margin-bottom: 20px;
+}
+
+.dashboard-header h1 {
+    font-size: 2rem;
+    color: #ff7200;
+}
+
+/* Grid layout for requests */
+.dashboard-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columns */
+    grid-gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.dashboard-item {
+    cursor: pointer;
+    background-color: #faf0e8;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 8px 8px rgba(196, 122, 37, 0.5);
+    text-align: center;
+    transition: transform 0.2s ease-in-out;
+    /* transition: box-shadow 0.5s ; */
+}
+
+.dashboard-item:hover {
+    transform: translateY(-5px);
+    box-shadow: none;
+    border-right: 5px solid #ff7200;
+    border-bottom: 5px solid #ff7200;
+}
+
+.dashboard-item h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.2rem;
+    color: #ff7200;
+}
+
+.dashboard-item a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
+.dashboard-item a:hover {
+    text-decoration: underline;
+}
+
+.sidebar .social-media ul {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+.sidebar .social-media ul li {
+    margin: 10px 0;
+}
+
+.sidebar .social-media .social-icon {
+    width: 24px; 
+    height: 24px;
+    vertical-align: middle;
+    margin: 8px;
+}
+
+.red-dot {
+    width: 12px;
+    height: 12px;
+    background-color: red;
+    border-radius: 50%;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+
+.red-dot.stopped {
+    animation: none;
+    background-color: gray;
+}
+
+
+.new-service-section {
+    display: none;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    transition: all 0.3s ease-in-out;
+}
+
+.new-service-section.open {
+    display: block;
+}
+
+
+.popup {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -20%);
+    background-color: white;
+    padding: 20px;
+    border: 2px solid #ccc;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.popup h3 {
+    margin-top: 0;
+}
+
+.popup button {
+    margin-right: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it is on top */
+}
+
+.modal-content {
+    background-color: #ff7200;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+}
+
+.modal-content ul li{
+    list-style: none;
+    margin-top: 10px;
+    border: 2px solid white;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    color: #ccc;
+    font-size: 38px;
+    cursor: pointer;
+}
+
+.request-details{
+    background-color: #f3d0b4;
+    padding-left: 10px;
+    padding-bottom: 10px;
+}
+
+.request-details button{
+    border-radius: 20px;
+    padding: 10px 5px 10px;
+    border: none;
+    color: #ccc;
+    font-size: medium;
+    font-weight: bold;
+    cursor: pointer;
+    margin-right: 20px;
+    width: 150px;
+}
+
+
+.request-list-container {
+    max-height: 300px;      
+    overflow-y: auto;  
+    margin-bottom: 20px; 
+    border-radius: 5px; 
+}
+
+.request-list {
+    list-style: none; 
+    padding: 0; 
+    margin: 0; 
+}

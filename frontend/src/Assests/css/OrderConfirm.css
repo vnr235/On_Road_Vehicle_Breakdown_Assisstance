@@ -1,0 +1,35 @@
+/* OrderConfirmation.css (if needed) */
+
+.order-confirmation {
+    background: #faf0e8;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(225, 135, 33, 0.1);
+    max-width: 500px;
+    margin: 120px auto;
+    text-align: center;
+}
+
+.order-confirmation h2 {
+    color: #ff7200;
+    margin-bottom: 20px;
+}
+
+.order-confirmation p {
+    margin-bottom: 10px;
+    font-family: Arial, sans-serif;
+    color: #252323;
+}
+
+.but{
+    background-color: #ff7200;
+    color: #faf0e8;
+    width: 70px;
+    cursor: pointer;
+    height: 30px;
+    border: none;
+    border-radius: 20px;
+
+
+}
+/* Additional styling as needed */

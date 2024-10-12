@@ -1,0 +1,302 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+ 
+.main{
+    background-image: url('../images/home-screen.jpg');
+    width: 100%;
+    background-size: cover;
+    height: 100vh;
+
+}
+
+
+.navbar{
+    align-content: grid-end;
+    height: 75px;
+    display: grid;
+}
+
+.icon{
+    width: 20px;
+    float: left;
+    height: 70px;
+}
+
+.ligo{
+    width: 200px;
+
+}
+
+.logo{
+    color: rgb(231, 231, 229);
+    font-size: 35px;
+    font-family: "Sofadi One", system-ui;
+    float: left;
+    margin: 10px;
+}
+
+.menu {
+    width: 400px;
+    float: right;
+    height: 70px;
+}
+
+.ul {
+    margin-right: 20px;
+    margin-top: 10px;
+    margin-left: 200px;
+    display: flex;
+    justify-content: right;
+    align-items: right;
+}
+
+.ul li {
+    list-style: none;
+    margin: 15px;
+    font-size: 14px;
+}
+
+.ul li a {
+    text-decoration: none;
+    color: rgba(248, 239, 239, 1);
+    font-family: Arial;
+    font-weight: bold;
+    position: relative;
+    padding-bottom: 5px; 
+}
+
+.ul li a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -3px; 
+    height: 2px; 
+    background-color: rgba(0, 0, 0, 1);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s ease-in-out;
+}
+
+.ul li a:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+.ul li a:hover {
+    color: black;
+}
+
+.logout-btn {
+    background-color: transparent;
+    border: none;
+    color: rgba(248, 239, 239, 1);
+    font-family: Arial;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    padding-bottom: 5px; 
+}
+
+.logout-btn::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -3px; 
+    height: 2px; 
+    background-color: rgba(0, 0, 0, 1);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s ease-in-out;
+}
+
+.logout-btn:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+.logout-btn:hover {
+    color: black;
+}
+
+
+.btn:focus{
+    outline: none;
+}
+
+.srch:focus{
+    outline: none;
+}
+
+.content{
+    display: flex;
+    margin-top: 150px;
+    margin-left: 100px;
+}
+
+.child{
+    display: grid;
+    /* width: 1050px; */
+    height: auto;
+    color: #fff;
+    position: relative;
+}
+
+.as{
+    margin-left: 10px;
+}
+.child .par{
+    background-size: cover;
+    /* margin-right: 30px; */
+    margin-top: 30px;
+    margin-left: 630px;
+    color: #f1f0f0;
+    font-family: Arial;
+    letter-spacing: 1.2px;
+    line-height: 30px;
+}
+
+.child h1{
+    font-family: "Protest Guerrilla", sans-serif;
+    font-size: 50px;
+    letter-spacing: 2px;
+}
+
+.child .cn{
+    margin: 20px;
+    margin-left: 850px;
+    width: 160px;
+    height: 40px;
+    background: rgb(231, 231, 229);
+    border: none;
+    font-size: 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: .4s ease;
+}
+
+.child .cn a{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-decoration: none;
+    color: black;
+    transition: .4s ease;
+}
+
+.child .cn a:hover{
+    color: #f1f0f0;
+}
+
+.cn:hover{
+    color: #f1f0f0;
+    background-color: black;
+    box-shadow: 0 4px 8px rgba(248, 245, 245, 0.5);
+}
+
+.child span{
+    margin-left: 590px;
+    color: rgb(231, 231, 229);
+    font-size: 65px;
+}
+
+.form{
+    display: grid;
+    width: 250px;
+    height: auto;
+    background: linear-gradient(to top, rgba(231, 203, 203, 0.5)20%,rgba(222, 213, 213, 0.5)20%);
+    float: left;
+    border-radius: 10px;
+    padding: 25px;
+
+}
+
+.form h2{
+    width: 230px;
+    font-family: sans-serif;
+    text-align: center;
+    color: #ff7200;
+    font-size: 22px;
+    background-color: #fff;
+    border-radius: 10px;
+    margin: 2px;
+    padding: 8px;
+}
+
+.form input{
+    width: 240px;
+    height: 35px;
+    background: transparent;
+    border-bottom: 1px solid #ff7200;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    color: #fff;
+    font-size: 15px;
+    letter-spacing: 1px;
+    margin-top: 30px;
+    font-family: sans-serif;
+}
+
+.form input:focus{
+    outline: none;
+}
+
+::placeholder{
+    color: #fff;
+    font-family: Arial;
+}
+
+.btnn{
+    width: 240px;
+    height: 40px;
+    background: #ff7200;
+    border: none;
+    margin-top: 30px;
+    font-size: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    color: #fff;
+    transition: 0.4s ease;
+}
+
+.btnn:hover{
+    background: #fff;
+    color: #fff;
+}
+
+.btnn a{
+    text-decoration: none;
+    color: #010101;
+    font-weight: bold;
+}
+
+.form .link{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 17px;
+    padding-top: 20px;
+    text-align: center;
+}
+
+.form .link a{
+    text-decoration: none;
+    color: #ff7200;
+}
+
+
+.icons ion-icon{
+    color: #010101;
+    font-size: 30px;
+    padding-left: 14px;
+    padding-top: 5px;
+    transition: 0.3s ease;
+}
+
+.icons ion-icons:hover{
+    color: #ff7200;
+}
+.si{
+	padding-left: 40px;
+	padding-top: 20px;
+}

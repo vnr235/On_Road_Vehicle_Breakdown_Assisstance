@@ -1,0 +1,245 @@
+.dashboard-contairr {
+  display: flex;
+  height: 815px;
+
+}
+
+.userinfo-card {
+  width: 350px;
+  background-color: #ff7200;
+  padding: 20px;
+  color: #cdbdbd;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.main-content {
+  flex-grow: 1;
+  margin-left: 20px;
+}
+
+
+.booking-history-card {
+  width: 1300px;
+  background-color: #faf0e8;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* margin-bottom: 30px; */
+}
+
+.booking-details-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.booking-details-card {
+  background-color: #f9e9d0;
+  padding: 20px;
+  width: auto;
+  max-height: 250px;
+  color: peru;
+  /* border-left: 5px solid #0077cc; */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.edittt button{
+  background-color: transparent;
+  border-radius: 20px;
+  border-top: none;
+  border-left: none;
+  cursor: pointer;
+  color: white;
+  font-size: medium;
+  font-weight: bold;
+  margin-top: 40px;
+  margin-right: 50px;
+  padding: 10px 20px 10px;
+}
+
+.edittt button:hover{
+  border-color: white;
+}
+
+.edittt label{
+  font-size: 18px;
+  color: white;
+  margin-top: 10px;
+  margin-bottom: 0px;
+}
+
+.edittt input{
+  color: rgb(15, 14, 14);
+  font-size: medium;
+  font-weight: lighter;
+}
+
+.booking-details-card h2{
+  margin-top: 0;
+}
+
+.booking-details-card p{
+  margin-top: 20px;
+  color: black;
+}
+
+.booking-details-card button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.booking-details-card button:hover {
+  background-color: #0056b3;
+}
+
+.titlle {
+  margin-left: 50px;
+  font-size: 1.8rem;
+  color: #f9e9d0;
+  margin-bottom: 40px;
+}
+
+.titllee{
+  margin-left: 400px;
+  font-size: 1.8rem;
+  color: #ff7200;
+  margin-bottom: 40px;
+}
+
+.titlle p strong {
+  color: #dba579;
+  margin-bottom: 10px;
+  margin-top: 15px;
+}
+
+.bttn {
+  margin-top: 90px;
+  display: flex;
+  flex-direction: column;
+}
+
+.bttn button {
+  background-color: transparent;
+  border-top: none;
+  border-left: none;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  height: 30px;
+  width: 250px;
+  font-size: medium;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+}
+
+.bttn button:hover{
+  border-color: white;
+}
+
+.table-container{
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.booking-table {
+  width: 100%;
+  border-collapse: collapse;
+  /* margin-top: 20px; */
+}
+
+.booking-table th,
+.booking-table td {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+.booking-table th {
+  background-color: black;
+  color: white;
+  position: sticky;
+  top: 0;
+}
+
+.booking-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.details-btn {
+  background-color: #0077cc;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.details-btn:hover {
+  background-color: #005fa3;
+}
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    flex-direction: column;
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+
+  .user-info-card {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .title {
+    font-size: 1.6rem;
+  }
+
+  p {
+    font-size: 1rem;
+  }
+
+  .details-btn {
+    padding: 6px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-container {
+    padding: 10px;
+  }
+
+  .user-info-card {
+    width: 50%;
+  }
+
+  .title {
+    font-size: 1.4rem;
+  }
+
+  p {
+    font-size: 0.9rem;
+  }
+
+  .details-btn {
+    padding: 5px 10px;
+  }
+}

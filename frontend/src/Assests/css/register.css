@@ -1,0 +1,147 @@
+.regis-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  /* width: 50px; */
+  position: relative;
+  overflow: hidden;
+}
+
+.mmmm {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.form-group,
+.input-group {
+  flex: 0 0 48%;
+  /* Adjust the width of each column */
+  margin-bottom: 15px;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+}
+
+.hed {
+  margin-left: 9px;
+  color: #0c0c0c;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.background-image1 {
+  margin-top: 200px;
+  width: 100%;
+  height: 100%;
+
+}
+
+.regis-box {
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgb(95, 223, 255, 1);
+  max-width: 500px;
+  width: 100%;
+  backdrop-filter: blur(80px);
+  margin-left: 50px;
+  margin-right: 150px;
+
+}
+
+.input-group {
+  margin-bottom: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+  font-size: large;
+  box-shadow: 2px 2px 2px rgb(95, 223, 255);
+  position: relative;
+}
+
+.input-group input{
+  background-color: transparent;
+  font-size: large;
+  color: #070707;
+  font-weight: 200px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #080808;
+  /* text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.12); */
+}
+
+select {
+  width: 100%;
+  padding: 10px;
+  color: #080808;
+  border: none;
+  font-size: large;
+  border-radius: 4px;
+  background-color: transparent;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s;
+  /* box-sizing: border-box;
+    font-size: 14px;
+    font-family: Arial, sans-serif; */
+}
+
+input {
+  width: 100%;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  background-color: transparent;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s;
+}
+
+input:focus {
+  outline: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.regis-button {
+  width: 100%;
+  padding: 10px;
+  background-color: rgb(95, 223, 255);
+  color: #fff;
+  font-weight: bold;
+  font-size: large;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.regis-button:hover {
+  background: linear-gradient(135deg,#ff9500, #faf0e8 );
+  color:#2c2b2b;
+}
+
+/* .forgot-password {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .forgot-password a {
+    color: #007bff;
+    text-decoration: none;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  }
+  
+  .forgot-password a:hover {
+    text-decoration: underline;
+  } */
