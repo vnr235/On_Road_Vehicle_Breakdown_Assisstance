@@ -87,7 +87,7 @@ const sendMechanicNotification = async (mechanicId, customerName, phoneNumber, s
 
 
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://vnr235:vnr235@onroadbreakdown.wdmnsmw.mongodb.net/', {
+mongoose.connect(process.env.MONGOURL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     tls: true, // Ensure TLS is enabled, which is often required by Atlas
