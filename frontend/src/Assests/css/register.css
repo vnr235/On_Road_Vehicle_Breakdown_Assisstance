@@ -67,11 +67,20 @@ select {
   position: relative;
 }
 
-.input-group input{
-  background-color: transparent;
-  font-size: large;
-  color: #070707;
-  font-weight: 200px;
+.input-group:hover{
+  box-shadow: 2px 2px 2px rgb(190, 191, 192);
+}
+
+.has{
+  text-align: center;
+  justify-content: center;
+  margin-top: 10px;
+  font-size: 20px;
+}
+.has a{
+  color: rgb(95, 223, 255);
+  font-size: 20px;
+  text-decoration: none;
 }
 
 label {
@@ -97,7 +106,10 @@ select {
     font-family: Arial, sans-serif; */
 }
 
-input {
+.input-group input {
+  font-size: large;
+  color: #070707;
+  font-weight: 200px;
   width: 100%;
   padding: 10px 15px;
   border: none;
@@ -109,7 +121,7 @@ input {
 
 input:focus {
   outline: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 8px rgba(165, 164, 164, 0.2);
 }
 
 .regis-button {
@@ -122,12 +134,14 @@ input:focus {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 1s;
+  transition: color 1s;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .regis-button:hover {
-  background: linear-gradient(135deg,#ff9500, #faf0e8 );
+  background:  #fff ;
+  box-shadow: 2px 2px 2px rgba(95, 223, 255, 1);
   color:#2c2b2b;
 }
 

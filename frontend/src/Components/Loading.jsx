@@ -25,7 +25,9 @@ import { Player } from '@lottiefiles/react-lottie-player';
 
 function Loading() {
     return (
-        <div className="loading-container">
+        <div className="loading-container" style={{
+            marginLeft:'50px'
+        }}>
             <Player
                 autoplay
                 loop

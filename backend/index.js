@@ -83,10 +83,21 @@ const sendMechanicNotification = async (mechanicId, customerName, phoneNumber, s
     }
 };
 
+const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST, 
+    port: parseInt(process.env.SMTP_PORT), 
+    secure: process.env.SMTP_SECURE === 'true', 
+    auth: {
+        user: process.env.EMAIL_USER, 
+        pass: process.env.EMAIL_PASS 
+    },
+    tls: {
+        rejectUnauthorized: false 
+    }
+});
 
 
-
-// Connect to MongoDB
+// Connection to MongoDB
 mongoose.connect(process.env.MONGOURL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -161,7 +172,10 @@ app.get('/', (req, res) => {
 
 app.post('/service-request', async (req, res) => {
     const { customerName, phoneNumber, serviceType, location, userId } = req.body;
-
+    if (!userId || !mongoose.Types.ObjectId.isValid(userId)) {
+        return res.status(400).send({ message: 'Invalid or missing user ID.' });
+    }
+    
     try {
         const availableMechanic = await Mechanic.findOne({ isAvailable: true });
 
@@ -174,17 +188,16 @@ app.post('/service-request', async (req, res) => {
             phoneNumber,
             serviceType,
             location,
-            userId,
-            mechanicId: availableMechanic._id 
+            userId: new mongoose.Types.ObjectId(userId),  
+            mechanicId: availableMechanic._id
         });
 
         await newServiceRequest.save();
         console.log('Service request saved:', newServiceRequest);
 
-        // Sending notification to mechanic, corrected phone number argument
-        sendMechanicNotification(availableMechanic._id, customerName, phoneNumber, serviceType, location); // Fixed argument order
+        // Sending notification to mechanic
+        sendMechanicNotification(availableMechanic._id, customerName, phoneNumber, serviceType, location);
 
-        
         res.status(201).send({ message: 'Service request submitted successfully', mechanic: availableMechanic.Name });
     } catch (err) {
         console.error('Error submitting service request:', err);
@@ -194,13 +207,12 @@ app.post('/service-request', async (req, res) => {
 
 
 
+
 app.put('/service-request/approve/:id', jwtMiddleware, async (req, res) => {
     const requestId = req.params.id;
 
     try {
-        // console.log(`Approving service request with ID: ${requestId}`);
         const serviceRequest = await ServiceRequest.findById(requestId);
-        // console.log('Retrieved Service Request:', serviceRequest);
         if (!serviceRequest) {
             return res.status(404).send({ message: 'Service request not found' });
         }
@@ -208,28 +220,27 @@ app.put('/service-request/approve/:id', jwtMiddleware, async (req, res) => {
         serviceRequest.status = 'Approved';
         await serviceRequest.save();
 
-        // const user = await users.findById(serviceRequest.userId); 
-        // if (!user) {
-        //     return res.status(404).send({ message: 'User not found' });
-        // }
+        const user = await users.findById(serviceRequest.userId); 
+        if (!user) {
+            return res.status(404).send({ message: 'User not found' });
+        }
 
-        
-        // const mechanic = await Mechanic.findById(serviceRequest.mechanicId); 
-        // if (!mechanic) {
-        //     return res.status(404).send({ message: 'Mechanic not found' });
-        // }
+        const mechanic = await Mechanic.findById(serviceRequest.mechanicId); 
+        if (!mechanic) {
+            return res.status(404).send({ message: 'Mechanic not found' });
+        }
 
-        // // Sending approval email to the user
-        // const mailOptions = {
-        //     from: process.env.EMAIL_USER,
-        //     to: user.email,
-        //     subject: 'Service Request Approved',
-        //     text: `Hello ${serviceRequest.customerName}, your service request has been approved by mechanic ${mechanic.Name}.`
-        // };
+        // Sending approval email to the user
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: user.email,
+            subject: 'Service Request Approved',
+            text: `Hello ${serviceRequest.customerName}, your service request has been approved by mechanic ${mechanic.Name}.`
+        };
 
-        // await transporter.sendMail(mailOptions); 
+        await transporter.sendMail(mailOptions); 
 
-        // res.status(200).send({ message: 'Service request approved successfully', serviceRequest });
+        res.status(200).send({ message: 'Service request approved successfully', serviceRequest });
 
     } catch (error) {
         console.error('Error approving service request:', error);
@@ -241,6 +252,7 @@ app.put('/service-request/reject/:id', jwtMiddleware, async (req, res) => {
     const requestId = req.params.id;
 
     try {
+        // Find the service request by ID
         const serviceRequest = await ServiceRequest.findById(requestId);
         if (!serviceRequest) {
             return res.status(404).send({ message: 'Service request not found' });
@@ -249,32 +261,29 @@ app.put('/service-request/reject/:id', jwtMiddleware, async (req, res) => {
         serviceRequest.status = 'Rejected';
         await serviceRequest.save();
 
-        const user = await users.findById(serviceRequest.userId); // Find user by userId
+        const user = await users.findById(serviceRequest.userId); 
         if (!user) {
             return res.status(404).send({ message: 'User not found' });
         }
 
-        // Send approval email to the user
+        const mechanic = await Mechanic.findById(serviceRequest.mechanicId);
+        if (!mechanic) {
+            return res.status(404).send({ message: 'Mechanic not found' });
+        }
+
         const mailOptions = {
             from: process.env.EMAIL_USER,
             to: user.email,
-            subject: 'Service Request Approved',
-            text: `Hello ${serviceRequest.customerName}, your service request has been approved by mechanic ${Mechanic.Name}.`
+            subject: 'Service Request Rejected',
+            text: `Hello ${serviceRequest.customerName},we are sorry to say that your service request has been rejected by mechanic ${mechanic.name}.`
         };
 
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.error('Error sending approval email:', error);
-            } else {
-                console.log('Email sent:', info.response);
-            }
-        });
-
-        res.status(200).send({ message: 'Service request approved successfully', serviceRequest });
+        await transporter.sendMail(mailOptions);
+        res.status(200).send({ message: 'Service request rejected successfully', serviceRequest });
 
     } catch (error) {
-        console.error('Error approving service request:', error);
-        res.status(500).send({ message: `Error approving service request: ${error.message}` });
+        console.error('Error rejecting service request:', error);
+        res.status(500).send({ message: `Error rejecting service request: ${error.message}` });
     }
 });
 
@@ -301,10 +310,10 @@ app.get('/user/:mechanicId', async (req, res) => {
     try {
         const mechanicId = req.params.mechanicId;
 
-        const requests = await ServiceRequest.find({ mechanicId: mechanicId });
+        const requests = await ServiceRequest.find({ mechanicId: mechanicId, status:'Pending'});
 
         if (requests.length === 0) {
-            return res.status(404).json({ message: 'No service requests found for this mechanic.' });
+            return res.status(404).json({ message: 'No new service requests found for this mechanic.' });
         }
 
         res.status(200).json({ requests });
@@ -313,7 +322,6 @@ app.get('/user/:mechanicId', async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 });
-
 
 // Login
 app.post('/login', async (req, res) => {
@@ -427,81 +435,78 @@ app.put('/mechanic/update/:id', jwtMiddleware, async (req, res) => {
 
 
 
-// app.post('/forgot-password', async (req, res) => {
-//     const { email } = req.body;
+app.post('/forgot-password', async (req, res) => {
+    const { email } = req.body;
 
-//     // Step 1: Check if the user exists in the database
-//     const user = await User.findOne({ email });
-//     if (!user) {
-//         return res.status(404).send({ message: 'User with this email does not exist.' });
-//     }
+    const user = await users.findOne({ email });
+    if (!user) {
+        return res.status(404).send({ message: 'User with this email does not exist.' });
+    }
+    const token = crypto.randomBytes(32).toString('hex');
 
-//     // Step 2: Generate a reset token
-//     const token = crypto.randomBytes(32).toString('hex');
+    // Saveing the reset token to the user (you would need to modify your user model to store a reset token and expiry time)
+    user.resetToken = token;
+    user.resetTokenExpiration = Date.now() + 3600000; 
+    await user.save();
 
-//     // Step 3: Save the reset token to the user (you would need to modify your user model to store a reset token and expiry time)
-//     user.resetToken = token;
-//     user.resetTokenExpiration = Date.now() + 3600000; // Token expires in 1 hour
-//     await user.save();
+    //Sending the email with the reset link
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS
+        }
+    });
 
-//     // Step 4: Send the email with the reset link
-//     const transporter = nodemailer.createTransport({
-//         service: 'gmail',
-//         auth: {
-//             user: process.env.EMAIL_USER,
-//             pass: process.env.EMAIL_PASS
-//         }
-//     });
+    const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: email,
+        subject: 'Password Reset Request',
+        text: `You requested a password reset. Click this link to reset your password: http://localhost:3000/reset-password/${token}`
+    };
 
-//     const mailOptions = {
-//         from: process.env.EMAIL_USER,
-//         to: email,
-//         subject: 'Password Reset Request',
-//         text: `You requested a password reset. Click this link to reset your password: http://localhost:3000/reset-password/${token}`
-//     };
-
-//     transporter.sendMail(mailOptions, (error, info) => {
-//         if (error) {
-//             console.error('Error sending email:', error);
-//             return res.status(500).send({ message: 'Error sending email' });
-//         }
-//         res.send({ message: 'Password reset link sent to your email address' });
-//     });
-// });
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.error('Error sending email:', error);
+            return res.status(500).send({ message: 'Error sending email' });
+        }
+        res.send({ message: 'Password reset link sent to your email address' });
+    });
+});
 
 
-// app.post('/reset-password', async (req, res) => {
-//     const { token, newPassword } = req.body;
+app.post('/reset-password', async (req, res) => {
+    const { token, newPassword } = req.body;
 
-//     if (!token || !newPassword) {
-//         return res.status(400).send({ message: 'Token and new password are required' });
-//     }
+    if (!token || !newPassword) {
+        return res.status(400).send({ message: 'Token and new password are required' });
+    }
 
-//     try {
-//         const user = await users.findOne({
-//             resetPasswordToken: token,
-//             resetPasswordExpires: { $gt: Date.now() }
-//         });
+    try {
+        const user = await users.findOne({
+            resetPasswordToken: token,
+            resetPasswordExpires: { $gt: Date.now() }
+        });
 
-//         if (!user) {
-//             return res.status(400).send({ message: 'Password reset token is invalid or has expired' });
-//         }
+        if (!user) {
+            return res.status(400).send({ message: 'Password reset token is invalid or has expired' });
+        }
 
-//         // Hashing the new password
-//         const hashedPassword = await bcrypt.hash(newPassword, 10);
+        // Hashing the new password
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-//         user.password = hashedPassword;
-//         user.resetPasswordToken = undefined;
-//         user.resetPasswordExpires = undefined;
+        user.password = hashedPassword;
+        user.resetPasswordToken = undefined;
+        user.resetPasswordExpires = undefined;
 
-//         await user.save();
+        await user.save();
 
-//         res.status(200).send({ message: 'Password has been reset successfully' });
-//     } catch (err) {
-//         console.error('Error in reset password route:', err);
-//         res.status(500).send({ message: 'Server error' });
-//     }
-// });
+        res.status(200).send({ message: 'Password has been reset successfully' });
+    } catch (err) {
+        console.error('Error in reset password route:', err);
+        res.status(500).send({ message: 'Server error' });
+    }
+});
 
 
 // Fetching mechanic's status

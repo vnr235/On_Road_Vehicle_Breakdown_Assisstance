@@ -8,6 +8,7 @@ import animation from '../Assests/images/request-ani.json'
 
 function ServiceRequest() {
     const [formData, setFormData] = useState({
+        userid: '',
         customerName: '',
         phoneNumber: '',
         serviceType: '',
@@ -32,7 +33,8 @@ function ServiceRequest() {
                 setFormData(prevData => ({
                     ...prevData,
                     customerName: response.data.name || '',
-                    phoneNumber: response.data.phoneNumber || ''
+                    phoneNumber: response.data.phoneNumber || '',
+                    userId: response.data._id || '' 
                 }));
             } catch (error) {
                 console.error('Error fetching user data:', error.response ? error.response.data : error.message);

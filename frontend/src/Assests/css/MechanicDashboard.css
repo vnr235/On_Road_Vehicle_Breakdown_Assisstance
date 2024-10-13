@@ -218,8 +218,8 @@
     background-color: red;
     border-radius: 50%;
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: -30px;
+    right: -9px;
     animation: blink 1s infinite;
 }
 
@@ -238,7 +238,7 @@
 
 .red-dot.stopped {
     animation: none;
-    background-color: gray;
+    background-color: transparent;
 }
 
 
@@ -318,15 +318,23 @@
     right: 10px;
     background: transparent;
     border: none;
-    color: #ccc;
-    font-size: 38px;
+    color: #f9f4f4;
+    font-size: 28px;
     cursor: pointer;
 }
 
 .request-details{
     background-color: #f3d0b4;
-    padding-left: 10px;
+    border-radius: 20px;
+    padding-left: 20px;
+    padding-top: 20px;
     padding-bottom: 10px;
+    justify-content: center;
+    justify-items: center;
+}
+
+.request-details h2{
+    margin-bottom: 10px;
 }
 
 .request-details button{
@@ -353,4 +361,12 @@
     list-style: none; 
     padding: 0; 
     margin: 0; 
+}
+
+.b{
+    transition: all 1s;
+}
+
+.b:hover{
+    background: rgb(3, 198, 3);
 }

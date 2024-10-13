@@ -176,6 +176,7 @@ function Register() {
                 </div>
 
                 <button className="regis-button" onClick={handleSubmit}>Register</button>
+                <h6 className="has">Already have an account? <a href="/login">Login</a></h6>
             </form>
         </div>
     );

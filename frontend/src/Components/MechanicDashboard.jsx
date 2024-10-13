@@ -16,6 +16,7 @@ const MechanicDashboard = () => {
     const [serviceRequest, setServiceRequest] = useState([]);
     const [isModelOpen, setIsModelOpen] = useState(false);
     const [newServiceAvailable, setNewServiceAvailable] = useState('');
+    const [requestcount, setRequestcount] = useState(0);
     const [selectedRequest, setSelectedRequest] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
     const [editForm, setEditForm] = useState({
@@ -47,37 +48,28 @@ const MechanicDashboard = () => {
                 setEmail(res.data.Email);
                 setMechanicId(res.data.mechanicId);
 
-                // Populate edit form state with fetched data
-                setEditForm({
-                    name: res.data.name || '',
-                    username: res.data.UserName || '',
-                    phoneNumber: res.data.PhoneNumber || '',
-                    email: res.data.Email || '',
-                });
+                // Fetch service requests inside the mechanic details response
+                const userId = localStorage.getItem('userId');
+                if (userId) {
+                    axios.get(`http://localhost:2000/user/${userId}`, {
+                        headers: { Authorization: `Bearer ${token}` }
+                    })
+                        .then((res) => {
+                            const requests = res.data.requests || [];
+                            setServiceRequest(requests);
+                            setRequestcount(requests.length); // Update request count here
+                            setNewServiceAvailable(requests.length > 0);
+                        })
+                        .catch((err) => {
+                            console.error('Error retrieving service requests:', err);
+                        });
+                }
             })
             .catch((err) => {
                 console.error('Error fetching mechanic details:', err);
             });
-
-        // Polling service requests every 5 seconds
-        // const intervalId = setInterval(() => {
-        //     axios.get('http://localhost:2000/service-request/approve', {
-        //         headers: { Authorization: `Bearer ${token}` },
-        //     })
-        //         .then((res) => {
-        //             const newRequests = res.data.requests;
-        //             setServiceRequest(newRequests);
-        //             if (newRequests.length > 0) {
-        //                 setNewServiceAvailable(true);
-        //             }
-        //         })
-        //         .catch((err) => {
-        //             console.error('Error fetching service requests:', err);
-        //         });
-        // }, 5000);
-
-        // return () => clearInterval(intervalId);
     }, [token, navigate]);
+
 
     // Handling profile update
     const handleUpdateSubmit = (e) => {
@@ -128,15 +120,17 @@ const MechanicDashboard = () => {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         })
             .then((res) => {
-                console.log('Response data:', res.data);  // Debugging log
-                const requests = res.data.requests;  // Ensure the 'requests' field is present
+                console.log('Response data:', res.data);
+                const requests = res.data.requests;
                 if (requests) {
                     setServiceRequest(requests);
                     setNewServiceAvailable(requests.length > 0);
-                    setIsModelOpen(true);  // Open modal after fetching data
+                    setRequestcount(requests.length);
+                    setIsModelOpen(true);
                 } else {
                     console.warn('No service requests found in the response.');
-                    setServiceRequest([]);  // Ensure that state is reset
+                    setServiceRequest([]);
+                    setRequestcount(0);
                     setNewServiceAvailable(false);
                 }
             })
@@ -163,39 +157,41 @@ const MechanicDashboard = () => {
     const handleApprove = () => {
         if (!selectedRequest) {
             console.log("No request with given ID");
-            return; // Stop execution if no request is selected
+            return;
         }
-    
-        console.log('Approving request with ID:', selectedRequest._id);
-        
+
         if (!token) {
             console.error('Token is missing');
-            return; // Ensure the token is available
+            return;
         }
-    
+
         axios.put(`http://localhost:2000/service-request/approve/${selectedRequest._id}`, {}, {
             headers: { Authorization: `Bearer ${token}` },
         })
-        .then((response) => {
-            console.log('Response:', response);
-            alert('Request Approved');
-            setSelectedRequest(null); // Clear selected request after approval
-        })
-        .catch((err) => {
-            console.error('Error approving request:', err); // Log the full error object
-            if (err.response) {
-                console.error('Response error:', err.response); // Server responded with an error
-            } else if (err.request) {
-                console.error('No response received:', err.request); // No response received
-            } else {
-                console.error('Request error:', err.message); // Error in setting up the request
-            }
-            alert('Failed to approve request. Please try again.');
-        });
+            .then((response) => {
+                console.log('Response:', response);
+                alert('Request Approved');
+                setSelectedRequest(null);
+                setServiceRequest(serviceRequest.filter((request) => request._id !== selectedRequest._id));
+                setRequestcount(prevCount => prevCount - 1);
+                setNewServiceAvailable(false);
+
+            })
+            .catch((err) => {
+                console.error('Error approving request:', err); // Log the full error object
+                if (err.response) {
+                    console.error('Response error:', err.response); // Server responded with an error
+                } else if (err.request) {
+                    console.error('No response received:', err.request); // No response received
+                } else {
+                    console.error('Request error:', err.message); // Error in setting up the request
+                }
+                alert('Failed to approve request. Please try again.');
+            });
     };
-    
-    
-    
+
+
+
 
     const handleEditChange = (e) => {
         setEditForm({
@@ -207,12 +203,17 @@ const MechanicDashboard = () => {
     const handleReject = () => {
         if (!selectedRequest) return;
 
-        axios.post(`http://localhost:2000/service-request/reject/${selectedRequest._id}`, {}, {
+        axios.put(`http://localhost:2000/service-request/reject/${selectedRequest._id}`, {}, {
             headers: { Authorization: `Bearer ${token}` },
         })
-            .then(() => {
+            .then((response) => {
+                console.log('Response:', response);
                 alert('Request Rejected');
                 setSelectedRequest(null);
+                setServiceRequest(serviceRequest.filter((request) => request._id !== selectedRequest._id));
+                setRequestcount(prevCount => prevCount - 1);
+                setNewServiceAvailable(false);
+
             })
             .catch((err) => {
                 console.error('Error rejecting request:', err);
@@ -236,7 +237,15 @@ const MechanicDashboard = () => {
                 setIsAvailable(newStatus);
             })
             .catch((err) => {
-                console.error('Error updating status:', err);
+                console.error('Error rejecting request:', err); // Log the full error object
+                if (err.response) {
+                    console.error('Response error:', err.response); // Server responded with an error
+                } else if (err.request) {
+                    console.error('No response received:', err.request); // No response received
+                } else {
+                    console.error('Request error:', err.message); // Error in setting up the request
+                }
+                alert('Failed to reject request. Please try again.');
             });
     };
 
@@ -266,8 +275,8 @@ const MechanicDashboard = () => {
                     <h2>New Service Requests</h2>
                     <button className="close-modal" onClick={handleCloseModal}>X</button>
                     {serviceRequest.length > 0 ? (
-                        <div className="request-list-container"> 
-                            <ul className="request-list"> 
+                        <div className="request-list-container">
+                            <ul className="request-list">
                                 {serviceRequest.map((request, index) => (
                                     <li style={{ cursor: 'pointer' }} key={request.requestId || index} onClick={() => handleSelectRequest(request)}>
                                         <p style={{ color: 'black' }}>Customer Name: {request.customerName}</p>
@@ -287,15 +296,15 @@ const MechanicDashboard = () => {
                             <p style={{ color: 'black' }}>Service Type: {selectedRequest.serviceType}</p>
                             <p style={{ color: 'black' }}>Location: {selectedRequest.location}</p>
                             <p style={{ color: 'black' }}>Phone Number: {selectedRequest.phoneNumber}</p>
-                            <button style={{ backgroundColor: 'green' }} onClick={handleApprove}>Approve</button>
-                            <button style={{ backgroundColor: 'red' }} onClick={handleReject}>Reject</button>
+                            <button className='b' style={{ backgroundColor: 'green', color: 'white' }} onClick={handleApprove}>Approve</button>
+                            <button className='t' style={{ backgroundColor: 'red', color: 'white' }} onClick={handleReject}>Reject</button>
                         </div>
                     )}
                 </div>
             </div>
         );
     };
-    
+
 
     return (
         <div className="dashboard-wrapper">
@@ -377,7 +386,11 @@ const MechanicDashboard = () => {
                     <div className="dashboard-grid">
                         <div className="dashboard-item">
                             <h3 onClick={handleServiceClick}>New Requests</h3>
-                            <p style={{ color: 'black' }}>{newServiceAvailable} requests</p>
+                            <p style={{ position: 'relative', color: 'black' }}>
+                            <span className={`red-dot ${requestcount >= 1 ? '' : 'stopped'}`}></span>
+                                ({requestcount}) requests
+
+                            </p>
                         </div>
                     </div>
                 </div>
