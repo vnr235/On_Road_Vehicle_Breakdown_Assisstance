@@ -43,7 +43,7 @@ const MechanicDashboard = () => {
         }
 
         // Fetch mechanic details
-        axios.get('http://localhost:2000/mechanic/details', {
+        axios.get('https://on-road-vehicle-breakdown-assisstance.onrender.com/mechanic/details', {
             headers: { Authorization: `Bearer ${token}` },
         })
             .then((res) => {
@@ -57,7 +57,7 @@ const MechanicDashboard = () => {
                 // Fetch service requests inside the mechanic details response
                 const userId = localStorage.getItem('userId');
                 if (userId) {
-                    axios.get(`http://localhost:2000/user/${userId}`, {
+                    axios.get(`https://on-road-vehicle-breakdown-assisstance.onrender.com/user/${userId}`, {
                         headers: { Authorization: `Bearer ${token}` }
                     })
                         .then((res) => {
@@ -87,7 +87,7 @@ const MechanicDashboard = () => {
 
         const userId = localStorage.getItem('userId');
 
-        axios.put(`http://localhost:2000/mechanic/update/${userId}`, editForm, {
+        axios.put(`https://on-road-vehicle-breakdown-assisstance.onrender.com/mechanic/update/${userId}`, editForm, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -123,7 +123,7 @@ const MechanicDashboard = () => {
             return;
         }
 
-        axios.get(`http://localhost:2000/user/${userId}`, {
+        axios.get(`https://on-road-vehicle-breakdown-assisstance.onrender.com/user/${userId}`, {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         })
             .then((res) => {
@@ -172,7 +172,7 @@ const MechanicDashboard = () => {
             return;
         }
 
-        axios.put(`http://localhost:2000/service-request/approve/${selectedRequest._id}`, {}, {
+        axios.put(`https://on-road-vehicle-breakdown-assisstance.onrender.com/service-request/approve/${selectedRequest._id}`, {}, {
             headers: { Authorization: `Bearer ${token}` },
         })
             .then((response) => {
@@ -210,7 +210,7 @@ const MechanicDashboard = () => {
     const handleReject = () => {
         if (!selectedRequest) return;
 
-        axios.put(`http://localhost:2000/service-request/reject/${selectedRequest._id}`, {}, {
+        axios.put(`https://on-road-vehicle-breakdown-assisstance.onrender.com/service-request/reject/${selectedRequest._id}`, {}, {
             headers: { Authorization: `Bearer ${token}` },
         })
             .then((response) => {
@@ -236,7 +236,7 @@ const MechanicDashboard = () => {
 
         const newStatus = !isAvailable;
 
-        axios.put('http://localhost:2000/mechanic/update-status', { isAvailable: newStatus }, {
+        axios.put('https://on-road-vehicle-breakdown-assisstance.onrender.com/mechanic/update-status', { isAvailable: newStatus }, {
             headers: { Authorization: `Bearer ${token}` },
         })
             .then((res) => {
@@ -263,7 +263,7 @@ const MechanicDashboard = () => {
 
         if (window.confirm('Are you sure you want to delete your profile? This action cannot be undone.')) {
             try {
-                await axios.delete(`http://localhost:2000/delete-profile/${userId}`, {
+                await axios.delete(`https://on-road-vehicle-breakdown-assisstance.onrender.com/delete-profile/${userId}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
