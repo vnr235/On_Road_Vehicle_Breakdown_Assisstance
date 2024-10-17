@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 // import './index.css';
 import Home from './Components/Home';
 import reportWebVitals from './reportWebVitals';
-import { createBrowserRouter, RouterProvider, Route, Routes } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Routes } from 'react-router-dom';
 import Login from './Components/Login';
 import Register from './Components/register';
 import ServiceRequest from './Components/ServiceRequest';
