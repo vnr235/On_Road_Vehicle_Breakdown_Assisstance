@@ -17,7 +17,7 @@ function MechanicHome() {
         }
 
         // Fetch the mechanic's current status from the backend when the component loads
-        axios.get('http://localhost:2000/mechanic/status', {
+        axios.get('https://on-road-vehicle-breakdown-assisstance.onrender.com/mechanic/status', {
             headers: { 'Authorization': `Bearer ${token}` }
         })
         .then((res) => {
@@ -37,7 +37,7 @@ function MechanicHome() {
         // Toggle the status and send the update to the backend
         const newStatus = !isAvailable;
 
-        axios.put('http://localhost:2000/mechanic/update-status', { isAvailable: newStatus }, {
+        axios.put('https://on-road-vehicle-breakdown-assisstance.onrender.com/mechanic/update-status', { isAvailable: newStatus }, {
             headers: { 'Authorization': `Bearer ${token}` }
         })
         .then((res) => {
