@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../Assests/css/Home.css';
 import Header from './Header';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import LoadingPage from './Loading_car'; // Import the loading page
 
 function VehicleBreakdown() {
