@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import '../Assests/css/login.css';
-import login from '../Assests/images/login.png'
+
 import { Player } from "@lottiefiles/react-lottie-player";
 import animation from '../Assests/images/login-ani.json'
 
