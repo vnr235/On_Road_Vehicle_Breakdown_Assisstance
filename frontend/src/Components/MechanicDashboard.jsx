@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../Assests/css/MechanicDashboard.css';
+import LoadingPage from './Loading_car.jsx';
 import facebookIcon from '../Assests/images/facebook.png';
 import twitterIcon from '../Assests/images/twitter.png';
 import instagramIcon from '../Assests/images/instagram.png';
@@ -12,6 +13,7 @@ const MechanicDashboard = () => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [userName, setUserName] = useState('');
     const [email, setEmail] = useState('');
+    const [loading, setLoading]= useState(false);
     const [mechanicId, setMechanicId] = useState('');
     const [serviceRequest, setServiceRequest] = useState([]);
     const [isModelOpen, setIsModelOpen] = useState(false);
@@ -30,6 +32,10 @@ const MechanicDashboard = () => {
 
     // Fetch mechanic details and handle new service requests
     useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading(false);
+        }, 2000);
+
         if (!token) {
             console.error('No token found in localStorage.');
             navigate('/login');
@@ -68,6 +74,7 @@ const MechanicDashboard = () => {
             .catch((err) => {
                 console.error('Error fetching mechanic details:', err);
             });
+            return () => clearTimeout(timer);
     }, [token, navigate]);
 
 
@@ -279,9 +286,9 @@ const MechanicDashboard = () => {
                             <ul className="request-list">
                                 {serviceRequest.map((request, index) => (
                                     <li style={{ cursor: 'pointer' }} key={request.requestId || index} onClick={() => handleSelectRequest(request)}>
-                                        <p style={{ color: 'black' }}>Customer Name: {request.customerName}</p>
-                                        <p style={{ color: 'black' }}>Service Type: {request.serviceType}</p>
-                                        <p style={{ color: 'black' }}>Location: {request.location}</p>
+                                        <p >Customer Name: {request.customerName}</p>
+                                        <p >Service Type: {request.serviceType}</p>
+                                        <p >Location: {request.location}</p>
                                     </li>
                                 ))}
                             </ul>
@@ -292,10 +299,10 @@ const MechanicDashboard = () => {
                     {selectedRequest && (
                         <div className="request-details">
                             <h2>Request Details</h2>
-                            <p style={{ color: 'black' }}>Customer Name: {selectedRequest.customerName}</p>
-                            <p style={{ color: 'black' }}>Service Type: {selectedRequest.serviceType}</p>
-                            <p style={{ color: 'black' }}>Location: {selectedRequest.location}</p>
-                            <p style={{ color: 'black' }}>Phone Number: {selectedRequest.phoneNumber}</p>
+                            <p >Customer Name: {selectedRequest.customerName}</p>
+                            <p >Service Type: {selectedRequest.serviceType}</p>
+                            <p >Location: {selectedRequest.location}</p>
+                            <p >Phone Number: {selectedRequest.phoneNumber}</p>
                             <button className='b' style={{ backgroundColor: 'green', color: 'white' }} onClick={handleApprove}>Approve</button>
                             <button className='t' style={{ backgroundColor: 'red', color: 'white' }} onClick={handleReject}>Reject</button>
                         </div>
@@ -305,6 +312,9 @@ const MechanicDashboard = () => {
         );
     };
 
+    if (loading) {
+        return <LoadingPage />;
+    }
 
     return (
         <div className="dashboard-wrapper">
@@ -352,7 +362,19 @@ const MechanicDashboard = () => {
                                 <h2><strong>Email:</strong>{email || 'abc@gmail.com'}</h2>
                             </div>
                             <div className="navigation">
-                                <button onClick={() => setIsEditing(true)}>Update Details</button>
+                                <button
+                                    onClick={() => {
+                                        setEditForm({
+                                            name: mechanicName || '',
+                                            username: userName || '',
+                                            phoneNumber: phoneNumber || '',
+                                            email: email || '',
+                                        });
+                                        setIsEditing(true);
+                                    }}
+                                >
+                                    Update Details
+                                </button>
                                 <button onClick={handleLogout}>Log Out</button>
                                 <button onClick={handleDelete}>Delete Profile</button>
                             </div>
@@ -387,7 +409,7 @@ const MechanicDashboard = () => {
                         <div className="dashboard-item">
                             <h3 onClick={handleServiceClick}>New Requests</h3>
                             <p style={{ position: 'relative', color: 'black' }}>
-                            <span className={`red-dot ${requestcount >= 1 ? '' : 'stopped'}`}></span>
+                                <span className={`red-dot ${requestcount >= 1 ? '' : 'stopped'}`}></span>
                                 ({requestcount}) requests
 
                             </p>

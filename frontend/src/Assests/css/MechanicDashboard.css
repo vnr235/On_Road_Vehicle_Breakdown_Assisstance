@@ -218,8 +218,8 @@
     background-color: red;
     border-radius: 50%;
     position: absolute;
-    top: -30px;
-    right: -9px;
+    top: -50px;
+    right: -17px;
     animation: blink 1s infinite;
 }
 
@@ -235,6 +235,25 @@
     }
 }
 
+
+.edittt input{
+    color: black;
+    background: transparent;
+    border-radius: 20px;
+    border: 2px solid white;
+    border-top: none;
+    border-left: none;
+    padding: 10px;
+    font-size: medium;
+    font-weight: 180px;
+}
+
+.edittt input:focus{
+    color: black;
+    font-size: medium;
+    padding: 10px;
+
+}
 
 .red-dot.stopped {
     animation: none;
@@ -303,13 +322,26 @@
     position: relative;
 }
 
+.modal-content h2{
+    color: #f9f4f4;
+}
+
 .modal-content ul li{
+
     list-style: none;
-    margin-top: 10px;
-    border: 2px solid white;
+    margin-top: 25px;
+    border: 2px solid black;
     border-top: none;
     border-left: none;
-    border-right: none;
+    border-radius: 20px;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
+    /* border-right: none; */
+}
+.modal-content ul li:hover{
+    border: 2px solid white;
+    border-left: none;
+    border-top: none;
+    box-shadow: 0 3px 5px rgba(255, 255, 255, 0.5);
 }
 
 .close-modal {
@@ -331,10 +363,19 @@
     padding-bottom: 10px;
     justify-content: center;
     justify-items: center;
+    box-shadow: 2px 5px 5px rgba(196, 122, 37, 1.5);
 }
 
 .request-details h2{
     margin-bottom: 10px;
+    color: #030303;
+}
+
+.request-details p{
+    font-size: large;
+    margin: 10px;
+    /* margin-top: 10px; */
+    color: #030303;
 }
 
 .request-details button{
@@ -361,6 +402,11 @@
     list-style: none; 
     padding: 0; 
     margin: 0; 
+}
+.request-list p{
+    font-size: large;
+    margin: 15px;
+    color: #f9f4f4;
 }
 
 .b{

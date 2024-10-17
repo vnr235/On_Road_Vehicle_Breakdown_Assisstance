@@ -8,11 +8,23 @@
   width: 350px;
   background-color: #ff7200;
   padding: 20px;
-  color: #cdbdbd;
+  /* color: #cdbdbd; */
   flex-direction: column;
   justify-content: space-between;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.userinfo-card p{
+  font-size: larger;
+  margin-left: 10px;
+  color: white;
+  margin-top: 10px;
+  font-weight: bold;
+}
+.userinfo-card strong{
+  margin-right: 10px;
+  margin-top: 10px;
 }
 
 .main-content {
@@ -79,8 +91,8 @@
 }
 
 .edittt input{
-  color: rgb(15, 14, 14);
-  font-size: medium;
+  color: rgb(248, 246, 246);
+  font-size: larger;
   font-weight: lighter;
 }
 
@@ -124,6 +136,7 @@
 .titlle p strong {
   color: #dba579;
   margin-bottom: 10px;
+  font-size: 180px;
   margin-top: 15px;
 }
 
