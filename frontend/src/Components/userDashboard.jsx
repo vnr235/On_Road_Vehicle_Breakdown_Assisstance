@@ -25,7 +25,7 @@ const Dashboard = () => {
     }, 2000);
 
 
-    axios.get('http://localhost:2000/user-info', {
+    axios.get('https://on-road-vehicle-breakdown-assisstance.onrender.com/user-info', {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       }
@@ -40,7 +40,7 @@ const Dashboard = () => {
         });
 
         if (response.data._id) {
-          axios.get('http://localhost:2000/service-requests/user', {
+          axios.get('https://on-road-vehicle-breakdown-assisstance.onrender.com/service-requests/user', {
             headers: {
               'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
@@ -68,7 +68,7 @@ const Dashboard = () => {
     const confirmDelete = window.confirm("Are you sure you want to delete your profile? This action cannot be undone.");
 
     if (confirmDelete) {
-      axios.delete(`http://localhost:2000/delete-profile/${userId}`, {
+      axios.delete(`https://on-road-vehicle-breakdown-assisstance.onrender.com/delete-profile/${userId}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -110,7 +110,7 @@ const Dashboard = () => {
   const handleUpdateSubmit = (e) => {
     e.preventDefault();
 
-    axios.put(`http://localhost:2000/user/update/${userInfo._id}`, editForm, {
+    axios.put(`https://on-road-vehicle-breakdown-assisstance.onrender.com/user/update/${userInfo._id}`, editForm, {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       }
