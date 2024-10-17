@@ -132,7 +132,6 @@ const MechanicDashboard = () => {
                 if (requests) {
                     setServiceRequest(requests);
                     setNewServiceAvailable(requests.length > 0);
-                    console.log(newServiceAvailable);
                     setRequestcount(requests.length);
                     setIsModelOpen(true);
                 } else {
