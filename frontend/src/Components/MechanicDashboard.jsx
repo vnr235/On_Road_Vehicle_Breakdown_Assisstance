@@ -408,6 +408,11 @@ const MechanicDashboard = () => {
                     <div className="dashboard-grid">
                         <div className="dashboard-item">
                             <h3 onClick={handleServiceClick}>New Requests</h3>
+                            {newServiceAvailable && (
+                                <div className="notification-banner">
+                                    <p>New service requests available!</p>
+                                </div>
+                            )}
                             <p style={{ position: 'relative', color: 'black' }}>
                                 <span className={`red-dot ${requestcount >= 1 ? '' : 'stopped'}`}></span>
                                 ({requestcount}) requests
